@@ -4,139 +4,230 @@
 
 ![Python tests](https://github.com/shiv2228verma/email-priority-classifier/actions/workflows/tests.yml/badge.svg?branch=feature%2Fmailsense-ai-foundation)
 
-MailSense AI is an independent, student-built machine-learning prototype that classifies email messages as **Urgent**, **Normal**, or **Low** priority. It uses consistent text preprocessing, TF-IDF features, and Logistic Regression in an interactive Streamlit dashboard.
+MailSense AI is a student-built machine-learning prototype that analyzes email subject/body text and predicts one of three priority levels: **Urgent**, **Normal**, or **Low**. It provides a Streamlit dashboard for CSV/Excel uploads, prediction review, evaluation summaries, and CSV export.
 
-> This is an independent implementation inspired by the email-prioritization idea referenced in [ATTRIBUTION.md](ATTRIBUTION.md). It is not the original author's repository or an official continuation.
+> This project was developed in the repository owned by [Shiv Verma](https://github.com/shiv2228verma). Its problem domain and feature inspiration were informed by the reference project listed in [ATTRIBUTION.md](ATTRIBUTION.md). MailSense AI is not the original author's repository or an official continuation.
+
+## Problem statement
+
+Busy inboxes contain urgent incidents, routine work updates, and optional messages. Manually sorting exported email data can take time and may cause important messages to be missed. MailSense AI explores how a supervised text classifier can assist a person by suggesting a priority label for each email record.
+
+The tool is a decision-support prototype. It does not connect to a live mailbox or take actions on emails.
 
 ## Features
-- Upload email datasets in CSV or Excel format.
-- Validate and normalize subject and body text.
+
+- Load the included demonstration email dataset or upload a CSV/Excel file.
+- Validate required subject and body columns.
+- Normalize text consistently for training and prediction.
 - Predict Urgent, Normal, or Low priority.
-- Show estimated class confidence and influential text terms.
-- Explore priority counts and average confidence.
-- Download predictions as a CSV report.
-- Evaluate the model on a stratified hold-out split.
-- Run automated tests with pytest and GitHub Actions.
+- Display estimated class confidence and indicative model terms.
+- View priority counts and a distribution chart.
+- Review hold-out evaluation metrics and a confusion matrix.
+- Export the classified rows to CSV.
+- Automatically train the included demo model on first launch if no saved model exists.
+- Run automated tests and model-training checks through GitHub Actions.
+
+## Model and technology
+
+The current baseline is **TF-IDF (unigrams and bigrams) + Logistic Regression**. It is implemented as a scikit-learn Pipeline.
+
+| Technology | Use |
+|---|---|
+| Python | Application and model code |
+| Streamlit | Interactive dashboard |
+| Pandas | CSV/Excel data handling |
+| Scikit-learn | TF-IDF, Logistic Regression, and evaluation |
+| Joblib | Model persistence |
+| OpenPyXL / xlrd | Excel file support |
+| Pytest | Automated tests |
+| GitHub Actions | Continuous integration |
+
+The reference repository uses SentenceTransformer embeddings from `all-MiniLM-L6-v2` with Logistic Regression. The current MailSense AI implementation uses TF-IDF instead; transformer embeddings are a possible future comparison, not an existing feature.
 
 ## Architecture
-    Subject + body
-         |
-         v
-    Text normalization
-         |
-         v
-    TF-IDF vectorizer
-         |
-         v
-    Logistic Regression
-         |
-         +--> Priority label
-         +--> Estimated probability
-         +--> Influential terms
-         |
-         v
-    Streamlit dashboard and CSV export
 
-The initial baseline intentionally uses TF-IDF + Logistic Regression. It is lightweight and reproducible. Transformer embeddings can be evaluated as a future model comparison rather than claimed as an existing feature.
+```text
+CSV / Excel email records
+          |
+          v
+Validate subject and body
+          |
+          v
+Text normalization
+          |
+          v
+TF-IDF vectorization
+          |
+          v
+Logistic Regression
+          |
+          +----> Predicted priority
+          +----> Estimated probability
+          +----> Indicative terms
+          |
+          v
+Streamlit dashboard
+          |
+          v
+CSV export
+```
 
 ## Project structure
-    email-priority-classifier/
-    ├── app.py
-    ├── preprocessing.py
-    ├── prediction.py
-    ├── train_model.py
-    ├── requirements.txt
-    ├── data/demo_emails.csv
-    ├── training_data/sample_training_emails.csv
-    ├── artifacts/                 # generated locally; not committed
-    ├── tests/
-    ├── .github/workflows/tests.yml
-    ├── .streamlit/config.toml
-    ├── docs/
-    ├── pytest.ini
-    ├── .gitignore
-    ├── ATTRIBUTION.md
-    └── README.md
 
-## Setup
+```text
+email-priority-classifier/
+├── app.py
+├── preprocessing.py
+├── prediction.py
+├── train_model.py
+├── requirements.txt
+├── START_MAILSENSE_WINDOWS.bat
+├── data/
+│   └── demo_emails.csv
+├── training_data/
+│   └── sample_training_emails.csv
+├── artifacts/                    # generated model/report; not committed
+├── tests/
+│   ├── test_preprocessing.py
+│   └── test_prediction.py
+├── docs/
+│   ├── DATASET_CARD.md
+│   ├── MODEL_CARD.md
+│   ├── PROJECT_GUIDE.md
+│   └── PROJECT_STATEMENT.md
+├── .github/workflows/tests.yml
+├── .streamlit/config.toml
+├── pytest.ini
+├── .gitignore
+├── ATTRIBUTION.md
+├── LICENSE
+└── README.md
+```
 
-Requires Python 3.10 or newer.
+## Installation and setup
 
-1. Clone the repository:
-       git clone https://github.com/shiv2228verma/email-priority-classifier.git
-       cd email-priority-classifier
+**Requirements:** Python 3.10 or newer.
 
-2. Create and activate a virtual environment.
+### Windows — easiest method
 
-   Windows PowerShell:
-       py -m venv .venv
-       .venv\Scripts\Activate.ps1
+1. Download or clone this repository.
+2. Open the project folder.
+3. Double-click `START_MAILSENSE_WINDOWS.bat`.
+4. Wait while it creates the virtual environment, installs dependencies, and starts Streamlit.
+5. Open the local address shown in the terminal (normally http://localhost:8501).
 
-   macOS or Linux:
-       python3 -m venv .venv
-       source .venv/bin/activate
+Keep the terminal window open while using the dashboard. The first setup requires an internet connection to install Python packages.
 
-3. Install dependencies:
-       python -m pip install --upgrade pip
-       pip install -r requirements.txt
+### Manual setup
 
-4. Launch the dashboard:
+Clone the feature branch:
 
-   Windows: double-click `START_MAILSENSE_WINDOWS.bat`. It creates the virtual environment, installs dependencies, and starts the app.
+```bash
+git clone --branch feature/mailsense-ai-foundation https://github.com/shiv2228verma/email-priority-classifier.git
+cd email-priority-classifier
+```
 
-   Any operating system (after activating the virtual environment):
-       streamlit run app.py
+Create and activate a virtual environment.
 
-On its first launch, MailSense AI automatically trains the small included demo model and saves it under `artifacts/`. You do not need to run a separate training command to start the app. Open the local URL printed by Streamlit (normally http://localhost:8501).
+**Windows PowerShell**
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+```
 
-## Input format
+**macOS / Linux**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-Upload a CSV or Excel workbook containing these required columns:
+Install dependencies and start the dashboard:
 
-| Column | Description |
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+On first launch, the app automatically trains the small bundled demo model and saves it in `artifacts/`. To retrain it manually:
+
+```bash
+python train_model.py
+```
+
+## Input data format
+
+Upload a CSV or Excel workbook containing these two required columns:
+
+| Column | Meaning |
 |---|---|
-| subject | Email subject; blank values are allowed |
-| body | Email body; blank values are allowed |
+| `subject` | Email subject; blank values are allowed |
+| `body` | Email body; blank values are allowed |
 
 Example:
-    subject,body
-    "Server outage","The production API is unavailable."
-    "Weekly update","Here is the routine team progress summary."
 
-Column names are case-sensitive in this first version.
+```csv
+subject,body
+"Server outage","The production API is unavailable."
+"Weekly update","Here is the routine team progress summary."
+```
 
-## Model evaluation
+Column names are case-sensitive in this version. The prediction input does not need a priority/label column.
 
-The app trains the demo model automatically on first launch. You can also run \`python train_model.py\` manually to regenerate \`artifacts/priority_model.joblib\` and \`artifacts/evaluation.json\`; the script prints accuracy and a per-class precision, recall, and F1 report based on a stratified hold-out split.
+## Training dataset and evaluation
 
-**Evaluation caution:** The included labelled dataset is small and illustrative. Its score is not evidence of production performance. Replace it with a larger, representative, carefully labelled dataset and evaluate on a separate test set before making real-world claims.
+The bundled training file is `training_data/sample_training_emails.csv`. It contains **40 synthetic, manually authored examples**:
 
-The confidence field is the classifier's estimated class probability, not a guarantee of correctness. Influential terms are model-based indicators, not proof of causation.
+| Priority | Rows |
+|---|---:|
+| Urgent | 12 |
+| Normal | 13 |
+| Low | 15 |
+| **Total** | **40** |
 
-## Tests
-    pytest -q
+The training script uses a stratified train/test split (fixed random seed), then reports accuracy, macro F1, weighted F1, per-class precision/recall/F1, and a confusion matrix. The generated model and report are saved under `artifacts/`.
 
-## Developer documentation
+**Important evaluation limitation:** the dataset is very small and synthetic. Its score is only a demonstration of the pipeline and is not evidence of production performance. Do not report the reference repository's 97.3% result as a MailSense AI result. A reliable evaluation requires a larger, representative, independently labelled dataset.
 
-- [Technical project walkthrough](docs/PROJECT_GUIDE.md) — architecture, algorithm, metrics, demonstration steps, and viva preparation.
-- [Dataset card](docs/DATASET_CARD.md) — sample data origin, class distribution, intended use, and limitations.
-- [Attribution and project history](ATTRIBUTION.md) — acknowledgement of the project idea that inspired this work.
+The confidence column is the classifier's estimated class probability, not a guarantee of correctness. Indicative terms are coefficient-based model signals, not causal explanations.
+
+## Run tests
+
+```bash
+pytest -q
+```
+
+The GitHub Actions workflow also checks Python syntax, runs the tests, and executes a model-training smoke test.
+
+## Documentation
+
+- [Project statement](docs/PROJECT_STATEMENT.md) — problem, objectives, scope, users, workflow, technology, and limitations.
+- [Project guide](docs/PROJECT_GUIDE.md) — architecture, algorithm, metrics, demo instructions, and viva questions.
+- [Model card](docs/MODEL_CARD.md) — intended use, training data, evaluation, and model risks.
+- [Dataset card](docs/DATASET_CARD.md) — sample dataset details and limitations.
+- [Attribution and project history](ATTRIBUTION.md) — reference project and license acknowledgement.
 
 ## Limitations and responsible use
-- This is a decision-support prototype, not an autonomous email client.
-- It does not connect to Gmail or Outlook and cannot send, delete, or move messages.
-- Predictions may reflect gaps or bias in the training data.
-- Do not upload confidential or regulated email content to an environment you do not control.
-- Review important messages yourself; do not rely on this prototype as the sole reason to ignore or delay communication.
+
+- This is a prototype, not a production email client.
+- It does not integrate with Gmail or Outlook and cannot send, delete, archive, or move messages.
+- Performance may be poor on messages unlike the small synthetic training examples.
+- False negatives are possible, including for urgent messages.
+- Do not upload confidential or regulated email content to public/shared deployments.
+- A person must review important messages; do not use the model as the sole reason to ignore or delay communication.
 
 ## Roadmap
-- [ ] Evaluate on a larger, independently labelled dataset.
-- [ ] Compare the TF-IDF baseline with sentence-transformer embeddings.
-- [ ] Add confusion-matrix visualizations and configurable thresholds.
-- [ ] Add verified screenshots and deployment instructions.
-- [ ] Explore optional mailbox integrations with explicit user consent.
+
+- [ ] Build a larger, consented, independently labelled dataset.
+- [ ] Add cross-validation, error analysis, and probability calibration.
+- [ ] Compare TF-IDF with SentenceTransformer embeddings using the same evaluation split.
+- [ ] Improve confusion-matrix visualization and configurable threshold experiments.
+- [ ] Capture genuine application screenshots after local UI verification.
+- [ ] Add deployment instructions and deploy only after testing privacy and resource requirements.
+- [ ] Explore mailbox integration only with explicit user consent and appropriate security controls.
 
 ## Author
-**Shiv Verma** — [@shiv2228verma](https://github.com/shiv2228verma)
 
-See [ATTRIBUTION.md](ATTRIBUTION.md) for project inspiration and history.
+**Shiv Verma** — [GitHub: @shiv2228verma](https://github.com/shiv2228verma)
+
+See [ATTRIBUTION.md](ATTRIBUTION.md) for the project's reference and history.
