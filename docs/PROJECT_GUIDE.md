@@ -77,19 +77,20 @@ The influential terms are derived from the fitted TF-IDF features and the coeffi
 
 ## 7. Local development
 
+The easiest Windows option is to double-click `START_MAILSENSE_WINDOWS.bat` from the project root. It creates a virtual environment, installs dependencies, and launches the dashboard. Keep its terminal window open while using the app.
+
+For manual setup:
+
 ```bash
 python -m venv .venv
-# Windows PowerShell:
-.venv\\Scripts\\Activate.ps1
-# macOS/Linux:
-# source .venv/bin/activate
-
+# Windows PowerShell: .venv\\Scripts\\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
-python train_model.py
-pytest -q
 streamlit run app.py
 ```
+
+The app automatically trains the bundled demo model on first launch if the model artifact is missing. To retrain it manually, run `python train_model.py`. Run the tests with `pytest -q`.
 
 ## 8. Suggested demonstration
 
