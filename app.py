@@ -7,6 +7,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from prediction import DEFAULT_MODEL_PATH, load_model, predict_emails
+from train_model import main as train_demo_model
 
 ROOT = Path(__file__).resolve().parent
 REPORT_PATH = ROOT / "artifacts" / "evaluation.json"
@@ -15,7 +16,9 @@ st.set_page_config(page_title="MailSense AI", page_icon="📨", layout="wide")
 
 @st.cache_resource
 def get_model():
-    """Cache the trained pipeline for the lifetime of the Streamlit process."""
+    """Prepare the demo model on first launch and cache it for this process."""
+    if not DEFAULT_MODEL_PATH.exists():
+        train_demo_model()
     return load_model(DEFAULT_MODEL_PATH)
 
 st.markdown(
@@ -71,11 +74,9 @@ def main() -> None:
         st.caption("Labels: Urgent · Normal · Low")
         st.caption("Privacy: uploaded files are processed by this app session; avoid sensitive data on shared deployments.")
 
-    if not DEFAULT_MODEL_PATH.exists():
-        st.warning("The model has not been trained in this environment. Run python train_model.py in the project directory, then restart the app.")
-        return
     try:
-        model = get_model()
+        with st.spinner("Preparing the MailSense AI model..."):
+            model = get_model()
     except Exception as exc:
         st.error(f"Could not load the trained model: {exc}")
         return
