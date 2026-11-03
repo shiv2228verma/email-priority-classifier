@@ -1,9 +1,19 @@
 # Attribution and project history
 
-MailSense AI is an independent implementation developed in the repository owned by [Shiv Verma](https://github.com/shiv2228verma).
+## Project owner
 
-The project idea was informed by the publicly shared [Email Priority Classification System by Riya Sinha](https://github.com/riyaacodes/email-priority-classification-system). The reference project helped establish the problem domain: classifying email messages into priority levels.
+MailSense AI is maintained in the GitHub repository owned by [Shiv Verma](https://github.com/shiv2228verma).
 
-This repository is not presented as the original project, is not affiliated with or endorsed by the reference author, and should not be mistaken for the reference author's work. The implementation, project structure, documentation, and included demonstration data here are being developed independently.
+## Reference project
 
-If material from the reference repository is reused in the future, first verify its applicable license and retain any notices required by that license. This acknowledgement is not a substitute for a license.
+The problem domain and feature direction were informed by [Email Priority Classification System by Riya Sinha](https://github.com/riyaacodes/email-priority-classification-system).
+
+The reference repository is publicly marked as **MIT licensed** and its README identifies Riya Sinha as its author. The reference implementation uses SentenceTransformer embeddings from `all-MiniLM-L6-v2` followed by Logistic Regression. Its README reports a 97.3% accuracy figure for that reference project.
+
+## What is different in MailSense AI
+
+MailSense AI is a separately maintained implementation with its own repository structure, Streamlit interface, preprocessing and prediction modules, tests, CI workflow, project documentation, and synthetic demonstration dataset. Its current model is **TF-IDF (unigrams and bigrams) + Logistic Regression**, not the reference project's MiniLM embedding pipeline.
+
+The 97.3% figure shown by the reference repository is **not** a MailSense AI result and must not be attributed to this project. MailSense AI's bundled 40-row synthetic dataset is intended for demonstration and pipeline testing only.
+
+No affiliation, endorsement, or official continuation is claimed. This attribution is provided to acknowledge the reference that informed the project direction. If code or other material from the reference repository is incorporated in a later change, preserve the applicable copyright and MIT license notices and document the reused files.
