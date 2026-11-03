@@ -1,0 +1,41 @@
+subject,body,priority
+"Production outage","The production service is down for every customer. Immediate response required.",Urgent
+"Payment processing broken","Customers cannot complete payments and revenue is impacted. Fix this now.",Urgent
+"Security breach alert","Suspicious administrator access was confirmed. Contain the incident immediately.",Urgent
+"Critical data loss","Important customer records appear to be missing. Escalate this incident now.",Urgent
+"Server unavailable","The main server is not responding and the business is blocked.",Urgent
+"Deadline in one hour","The regulatory submission must be sent within the next hour.",Urgent
+"Account compromised","A customer account has been taken over. Please lock it immediately.",Urgent
+"Urgent failed deployment","The latest deployment broke the checkout workflow. Roll back immediately.",Urgent
+"Network outage","The office network is down and the support team cannot work.",Urgent
+"Fraud warning","Potential fraudulent transactions are happening right now. Investigate immediately.",Urgent
+"Critical bug in release","A severe bug affects all users after the release. Hotfix needed today.",Urgent
+"Immediate approval needed","The customer launch is blocked until this approval is completed today.",Urgent
+"Weekly team meeting","The weekly team sync is scheduled for Tuesday at ten in the morning.",Normal
+"Project progress update","Here is the current progress summary and the tasks completed this week.",Normal
+"Invoice for review","Please review the attached monthly invoice when you have a moment.",Normal
+"Meeting notes","Sharing the notes and action items from our planning discussion.",Normal
+"New employee onboarding","The onboarding checklist for the new team member is ready.",Normal
+"Schedule confirmation","This confirms our appointment for Thursday afternoon.",Normal
+"Document feedback","Could you review the updated document and share your feedback this week?",Normal
+"Training session details","The internal training session will take place next Wednesday.",Normal
+"Monthly report","The monthly performance report is attached for your review.",Normal
+"Team lunch plan","The team lunch is planned for Friday. Let us know if you can attend.",Normal
+"Maintenance notice","Routine maintenance is planned for the weekend. No action is required now.",Normal
+"Timesheet reminder","Please submit your regular weekly timesheet by the end of the week.",Normal
+"Welcome message","Welcome to the project team. We are happy to have you with us.",Normal
+"Weekend reading","Here are a few optional articles you may enjoy reading later.",Low
+"Product newsletter","The monthly newsletter is available with product news and tips.",Low
+"Seasonal discount","A seasonal discount is available if you are interested in shopping.",Low
+"Community photos","Photos from the community event are now available to browse.",Low
+"Optional webinar","You can watch the recording of our optional webinar at your convenience.",Low
+"Social event invitation","Join us for an informal social gathering next month if you wish.",Low
+"New blog post","A new blog post about general productivity tips has been published.",Low
+"Survey invitation","Please consider completing our optional feedback survey when convenient.",Low
+"Holiday greeting","Wishing you a pleasant holiday season and a relaxing break.",Low
+"Weekly digest","Here is a digest of recent updates for your information only.",Low
+"Office decoration poll","Vote on the optional decoration theme for the office celebration.",Low
+"Reading recommendation","We found a few interesting books that you may like to explore.",Low
+"Product feature announcement","A minor optional feature is now available in the application.",Low
+"Event photo album","The photo album from last month's event is ready to view.",Low
+"General announcement","This is a general informational announcement with no action required.",Low
