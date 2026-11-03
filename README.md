@@ -81,6 +81,10 @@ Requires Python 3.10 or newer.
        pip install -r requirements.txt
 
 4. Launch the dashboard:
+
+   Windows: double-click `START_MAILSENSE_WINDOWS.bat`. It creates the virtual environment, installs dependencies, and starts the app.
+
+   Any operating system (after activating the virtual environment):
        streamlit run app.py
 
 On its first launch, MailSense AI automatically trains the small included demo model and saves it under `artifacts/`. You do not need to run a separate training command to start the app. Open the local URL printed by Streamlit (normally http://localhost:8501).
