@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from typing import Any
 
+import pandas as pd
+
 _WHITESPACE_RE = re.compile(r"\s+")
 
 def clean_text(value: Any) -> str:
@@ -10,7 +12,7 @@ def clean_text(value: Any) -> str:
     if value is None:
         return ""
     try:
-        if value != value:  # NaN without importing pandas
+        if pd.isna(value):
             return ""
     except (TypeError, ValueError):
         pass
