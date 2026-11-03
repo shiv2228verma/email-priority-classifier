@@ -6,7 +6,7 @@ import joblib
 import pandas as pd
 from preprocessing import combine_email_text
 
-DEFAULT_MODEL_PATH = Path("artifacts/priority_model.joblib")
+DEFAULT_MODEL_PATH = Path(__file__).resolve().parent / "artifacts" / "priority_model.joblib"
 
 def load_model(model_path: str | Path = DEFAULT_MODEL_PATH) -> Any:
     """Load a model pipeline created by train_model.py."""
