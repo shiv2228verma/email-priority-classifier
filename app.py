@@ -1,5 +1,6 @@
 """Streamlit interface for MailSense AI."""
 from __future__ import annotations
+import hashlib
 import io
 import json
 from pathlib import Path
@@ -36,6 +37,13 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+def input_fingerprint(frame: pd.DataFrame) -> str:
+    """Identify the displayed input so results from an older upload are cleared."""
+    hashed_rows = pd.util.hash_pandas_object(frame, index=True).values.tobytes()
+    column_names = "|".join(map(str, frame.columns)).encode("utf-8")
+    return hashlib.sha256(column_names + hashed_rows).hexdigest()
+
 
 def read_upload(uploaded_file: object) -> pd.DataFrame:
     """Read a CSV or Excel upload."""
@@ -93,6 +101,11 @@ def main() -> None:
     if frame.empty:
         st.info("The selected file contains no email rows.")
         return
+
+    current_fingerprint = input_fingerprint(frame)
+    if st.session_state.get("mailsense_input_fingerprint") != current_fingerprint:
+        st.session_state.pop("mailsense_results", None)
+        st.session_state["mailsense_input_fingerprint"] = current_fingerprint
 
     st.subheader("Input preview")
     st.caption(f"{len(frame):,} email row(s) loaded · showing the first 8")
