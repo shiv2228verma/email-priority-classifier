@@ -49,6 +49,9 @@ def main() -> None:
     report = classification_report(y_test, predictions, labels=["Urgent", "Normal", "Low"], output_dict=True, zero_division=0)
     metrics = {
         "accuracy": round(float(accuracy_score(y_test, predictions)), 4),
+        "macro_f1": round(float(report["macro avg"]["f1-score"]), 4),
+        "weighted_f1": round(float(report["weighted avg"]["f1-score"]), 4),
+        "train_samples": int(len(y_train)),
         "test_samples": int(len(y_test)),
         "class_order": ["Urgent", "Normal", "Low"],
         "confusion_matrix": confusion_matrix(y_test, predictions, labels=["Urgent", "Normal", "Low"]).tolist(),
