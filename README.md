@@ -2,6 +2,8 @@
 
 **Intelligent Email Priority & Context Analyzer**
 
+![Python tests](https://github.com/shiv2228verma/email-priority-classifier/actions/workflows/tests.yml/badge.svg?branch=feature%2Fmailsense-ai-foundation)
+
 MailSense AI is an independent, student-built machine-learning prototype that classifies email messages as **Urgent**, **Normal**, or **Low** priority. It uses consistent text preprocessing, TF-IDF features, and Logistic Regression in an interactive Streamlit dashboard.
 
 > This is an independent implementation inspired by the email-prioritization idea referenced in [ATTRIBUTION.md](ATTRIBUTION.md). It is not the original author's repository or an official continuation.
@@ -49,6 +51,9 @@ The initial baseline intentionally uses TF-IDF + Logistic Regression. It is ligh
     ├── artifacts/                 # generated locally; not committed
     ├── tests/
     ├── .github/workflows/tests.yml
+    ├── .streamlit/config.toml
+    ├── docs/
+    ├── tests/
     ├── .gitignore
     ├── ATTRIBUTION.md
     └── README.md
