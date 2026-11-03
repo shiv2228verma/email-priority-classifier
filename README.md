@@ -106,6 +106,12 @@ The confidence field is the classifier's estimated class probability, not a guar
 ## Tests
     pytest -q
 
+## Developer documentation
+
+- [Technical project walkthrough](docs/PROJECT_GUIDE.md) — architecture, algorithm, metrics, demonstration steps, and viva preparation.
+- [Dataset card](docs/DATASET_CARD.md) — sample data origin, class distribution, intended use, and limitations.
+- [Attribution and project history](ATTRIBUTION.md) — acknowledgement of the project idea that inspired this work.
+
 ## Limitations and responsible use
 - This is a decision-support prototype, not an autonomous email client.
 - It does not connect to Gmail or Outlook and cannot send, delete, or move messages.
