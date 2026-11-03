@@ -101,6 +101,7 @@ email-priority-classifier/
 ├── .gitignore
 ├── ATTRIBUTION.md
 ├── LICENSE
+├── statement.md
 └── README.md
 ```
 
