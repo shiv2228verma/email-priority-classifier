@@ -140,8 +140,23 @@ def main() -> None:
         with st.expander("Training evaluation (hold-out sample)"):
             try:
                 metrics = json.loads(REPORT_PATH.read_text(encoding="utf-8"))
-                st.metric("Hold-out accuracy", f"{metrics['accuracy']:.1%}")
-                st.caption(metrics.get("note", ""))
+                m1, m2, m3 = st.columns(3)
+                m1.metric("Hold-out accuracy", f"{metrics['accuracy']:.1%}")
+                m2.metric("Macro F1", f"{metrics['macro_f1']:.3f}")
+                m3.metric("Weighted F1", f"{metrics['weighted_f1']:.3f}")
+                st.caption(
+                    f"Training rows: {metrics['train_samples']} · "
+                    f"Test rows: {metrics['test_samples']} · "
+                    + metrics.get("note", "")
+                )
+                st.markdown("**Confusion matrix** (rows = actual, columns = predicted)")
+                matrix = pd.DataFrame(
+                    metrics["confusion_matrix"],
+                    index=metrics["class_order"],
+                    columns=metrics["class_order"],
+                )
+                st.dataframe(matrix, use_container_width=True)
+                st.markdown("**Per-class classification report**")
                 st.json(metrics["classification_report"])
             except (ValueError, KeyError, OSError):
                 st.caption("Evaluation report is unavailable or invalid.")
