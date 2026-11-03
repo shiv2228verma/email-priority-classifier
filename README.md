@@ -76,15 +76,14 @@ Requires Python 3.10 or newer.
        python3 -m venv .venv
        source .venv/bin/activate
 
-3. Install dependencies and train the model:
+3. Install dependencies:
        python -m pip install --upgrade pip
        pip install -r requirements.txt
-       python train_model.py
 
 4. Launch the dashboard:
        streamlit run app.py
 
-Open the local URL printed by Streamlit (normally http://localhost:8501).
+On its first launch, MailSense AI automatically trains the small included demo model and saves it under `artifacts/`. You do not need to run a separate training command to start the app. Open the local URL printed by Streamlit (normally http://localhost:8501).
 
 ## Input format
 
@@ -104,7 +103,7 @@ Column names are case-sensitive in this first version.
 
 ## Model evaluation
 
-Running \`python train_model.py\` creates \`artifacts/priority_model.joblib\` and \`artifacts/evaluation.json\`. It prints accuracy and a per-class precision, recall, and F1 report based on a stratified hold-out split.
+The app trains the demo model automatically on first launch. You can also run \`python train_model.py\` manually to regenerate \`artifacts/priority_model.joblib\` and \`artifacts/evaluation.json\`; the script prints accuracy and a per-class precision, recall, and F1 report based on a stratified hold-out split.
 
 **Evaluation caution:** The included labelled dataset is small and illustrative. Its score is not evidence of production performance. Replace it with a larger, representative, carefully labelled dataset and evaluate on a separate test set before making real-world claims.
 
