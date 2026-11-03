@@ -53,12 +53,14 @@ The initial baseline intentionally uses TF-IDF + Logistic Regression. It is ligh
     ├── .github/workflows/tests.yml
     ├── .streamlit/config.toml
     ├── docs/
-    ├── tests/
+    ├── pytest.ini
     ├── .gitignore
     ├── ATTRIBUTION.md
     └── README.md
 
 ## Setup
+
+Requires Python 3.10 or newer.
 
 1. Clone the repository:
        git clone https://github.com/shiv2228verma/email-priority-classifier.git
