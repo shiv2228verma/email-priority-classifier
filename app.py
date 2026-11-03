@@ -12,6 +12,31 @@ REPORT_PATH = ROOT / "artifacts" / "evaluation.json"
 DEMO_PATH = ROOT / "data" / "demo_emails.csv"
 st.set_page_config(page_title="MailSense AI", page_icon="📨", layout="wide")
 
+@st.cache_resource
+def get_model():
+    """Cache the trained pipeline for the lifetime of the Streamlit process."""
+    return load_model(DEFAULT_MODEL_PATH)
+
+st.markdown(
+    """
+    <style>
+    .block-container {padding-top: 2rem; padding-bottom: 3rem; max-width: 1250px;}
+    [data-testid="stMetric"] {
+        background: linear-gradient(135deg, rgba(37,99,235,.10), rgba(14,165,233,.06));
+        border: 1px solid rgba(100,116,139,.18);
+        padding: 1rem 1.1rem; border-radius: 14px;
+    }
+    div.stButton > button[kind="primary"] {
+        border-radius: 10px; min-height: 2.8rem; font-weight: 650;
+    }
+    [data-testid="stFileUploader"] {
+        border: 1px dashed rgba(100,116,139,.45); border-radius: 12px; padding: .5rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 def read_upload(uploaded_file: object) -> pd.DataFrame:
     """Read a CSV or Excel upload."""
     filename = getattr(uploaded_file, "name", "").lower()
@@ -23,8 +48,12 @@ def read_upload(uploaded_file: object) -> pd.DataFrame:
 
 def main() -> None:
     st.title("📨 MailSense AI")
-    st.caption("Intelligent Email Priority & Context Analyzer")
-    st.markdown("Turn an email spreadsheet into a clearer review queue. MailSense AI predicts priority and shows estimated confidence alongside terms that influenced the model.")
+    st.caption("INTELLIGENT EMAIL PRIORITY & CONTEXT ANALYZER")
+    st.markdown(
+        "Turn an email spreadsheet into a clearer review queue. "
+        "Prioritize what needs attention, understand the model's signals, "
+        "and export a review-ready result."
+    )
     with st.sidebar:
         st.header("Your inbox data")
         uploaded = st.file_uploader("Upload email data", type=["csv", "xlsx", "xls"], help="Your file must contain subject and body columns.")
@@ -32,12 +61,13 @@ def main() -> None:
         st.divider()
         st.caption("Model: TF-IDF + Logistic Regression")
         st.caption("Labels: Urgent · Normal · Low")
+        st.caption("Privacy: uploaded files are processed by this app session; avoid sensitive data on shared deployments.")
 
     if not DEFAULT_MODEL_PATH.exists():
         st.warning("The model has not been trained in this environment. Run python train_model.py in the project directory, then restart the app.")
         return
     try:
-        model = load_model(DEFAULT_MODEL_PATH)
+        model = get_model()
     except Exception as exc:
         st.error(f"Could not load the trained model: {exc}")
         return
@@ -65,7 +95,15 @@ def main() -> None:
         return
 
     st.subheader("Input preview")
+    st.caption(f"{len(frame):,} email row(s) loaded · showing the first 8")
     st.dataframe(frame[["subject", "body"]].head(8), use_container_width=True)
+    with st.expander("How MailSense AI handles your data"):
+        st.write(
+            "The uploaded spreadsheet is read for this analysis and is not "
+            "connected to a mailbox. This prototype does not send, delete, "
+            "or move emails. Avoid uploading confidential or personal email "
+            "content to a public or shared deployment."
+        )
     if st.button("Analyze email priorities", type="primary"):
         with st.spinner("Analyzing email text..."):
             try:
